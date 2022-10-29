@@ -11,10 +11,13 @@ class Simulation {
         this.lastTime = 0
         this.frameCount = 0
         this.frameSkip = 0
-        this.pause = false
+        this.pause = true
 
         this.entityManager = new EntityManager()
+        this.spawnStartingEntities()
+    }
 
+    spawnStartingEntities() {
         this.entityManager.add(new Plant(Position.randomPosition(this.width, this.height), this))
     }
 
@@ -74,6 +77,7 @@ class Simulation {
     }
 
     reset() {
-
+        this.entityManager.purge()
+        this.spawnStartingEntities()
     }
 }

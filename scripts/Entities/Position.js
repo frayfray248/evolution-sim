@@ -38,10 +38,10 @@ class Position {
         return direction
     }
 
-    static randomPosition(maxX, maxY) {
+    static randomPosition(maxX, maxY, minX=0, minY=0) {
         return new Position(
-            Math.floor(Math.random() * maxX),
-            Math.floor(Math.random() * maxY),
+            Math.floor(Math.random() * maxX) + minX,
+            Math.floor(Math.random() * maxY) + minY,
         )
     }
 

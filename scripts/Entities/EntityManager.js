@@ -37,5 +37,8 @@ class EntityManager {
 
     }
 
+    purge() {
+        this.entities = []
+    }
 
 }
