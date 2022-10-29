@@ -4,9 +4,11 @@ class EntityManager {
     
     maxPlants = SETTINGS.MAX_PLANTS
     maxHerbivores = SETTINGS.MAX_HERBIVORES
+    maxCarnivores = SETTINGS.MAX_CARNIVORES
 
     plantCount = 0
     herbivoreCount = 0
+    carnivoreCount = 0
 
     constructor() {
 
@@ -26,6 +28,10 @@ class EntityManager {
             this.entities.push(entity)
             this.herbivoreCount++
         }
+        else if (entityType === "Carnivore" && this.carnivoreCount < this.maxCarnivores) {
+            this.entities.push(entity)
+            this.carnivoreCount++
+        }
     }
 
 
@@ -38,6 +44,9 @@ class EntityManager {
             this.plantCount--
         }
         else if (entity.constructor.name === "Herbivore") {
+            this.herbivoreCount--
+        }
+        else if (entity.constructor.name === "Carnivore") {
             this.herbivoreCount--
         }
 
@@ -63,6 +72,8 @@ class EntityManager {
     purge() {
         this.entities = []
         this.plantCount = 0
+        this.herbivoreCount = 0
+        this.carnivoreCount = 0
     }
 
 }

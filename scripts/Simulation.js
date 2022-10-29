@@ -25,6 +25,10 @@ class Simulation {
         this.entityManager.add(new Herbivore(Position.randomPosition(this.width, this.height), this))
     }
 
+    spawnCarnivore() {
+        this.entityManager.add(new Carnivore(Position.randomPosition(this.width, this.height), this))
+    }
+
     spawnStartingEntities() {
         for (let i = 0; i < SETTINGS.STARTING_PLANTS; i++) {
             this.spawnPlant()
@@ -32,6 +36,11 @@ class Simulation {
 
         for (let i = 0; i < SETTINGS.STARTING_HERBIVORES; i++) {
             this.spawnHerbivore()
+        }
+
+        for (let i = 0; i < SETTINGS.STARTING_CARNIVORES; i++) {
+            this.spawnCarnivore()
+
         }
         
     }
