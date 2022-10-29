@@ -17,8 +17,23 @@ class Simulation {
         this.spawnStartingEntities()
     }
 
-    spawnStartingEntities() {
+    spawnPlant() {
         this.entityManager.add(new Plant(Position.randomPosition(this.width, this.height), this))
+    }
+
+    spawnHerbivore() {
+        this.entityManager.add(new Herbivore(Position.randomPosition(this.width, this.height), this))
+    }
+
+    spawnStartingEntities() {
+        for (let i = 0; i < SETTINGS.STARTING_PLANTS; i++) {
+            this.spawnPlant()
+        }
+
+        for (let i = 0; i < SETTINGS.STARTING_HERBIVORES; i++) {
+            this.spawnHerbivore()
+        }
+        
     }
 
     update(delta) {
