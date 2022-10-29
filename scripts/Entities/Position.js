@@ -36,7 +36,13 @@ class Position {
         }
 
         return direction
+    }
 
+    static randomPosition(maxX, maxY) {
+        return new Position(
+            Math.floor(Math.random() * maxX),
+            Math.floor(Math.random() * maxY),
+        )
     }
 
     clone() {
