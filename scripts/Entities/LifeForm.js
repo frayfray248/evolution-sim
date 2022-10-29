@@ -2,12 +2,16 @@ class LifeForm extends CircleEntity {
 
     simulation
 
+    geneMap
+
     age
     energy
 
-    constructor(position, simulation, radius=5, color='white') {
-        super(position, simulation, radius, color)
+    constructor(position, simulation, color, geneMap) {
+        super(position, simulation, geneMap.get(GENES.RADIUS), color)
         this.simulation = simulation
+
+        this.geneMap = geneMap
         this.age = 0
         this.energy = 0
     }
@@ -20,11 +24,23 @@ class LifeForm extends CircleEntity {
         super.render(ctx)
     }
 
-    reproduce(offSet) {
-        
-        if (this.energy <= 5) return
+    reproduce() {
 
-        this.energy -= 5
+        const reproductionCost = this.geneMap.get(GENES.REPRODUCTION_COST)
+        
+        if (this.energy <= reproductionCost) return
+        this.energy -= reproductionCost
+
+        const offSpring = this.clone()
+        this.simulation.entityManager.add(offSpring)
+    }
+
+    reproduce(offSet) {
+
+        const reproductionCost = this.geneMap.get(GENES.REPRODUCTION_COST)
+        
+        if (this.energy <= reproductionCost) return
+        this.energy -= reproductionCost
 
         const offSpring = this.clone()
         offSpring.position.x += offSet.x
@@ -33,8 +49,8 @@ class LifeForm extends CircleEntity {
     }
 
     grow(delta) {
-        this.age += delta * 5
-        if (this.age > 10) {
+        this.age += delta
+        if (this.age > this.lifeSpan) {
             this.die()
         }
     }

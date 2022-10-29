@@ -17,7 +17,6 @@ class EntityManager {
         if (entityType === "Plant" && this.plantCount < this.maxPlants) {
             this.entities.push(entity)
             this.plantCount++
-            console.log(this.plantCount)
         }
     }
 
@@ -29,7 +28,6 @@ class EntityManager {
 
         if (entity.constructor.name === "Plant") {
             this.plantCount--
-            console.log(this.plantCount)
         }
 
     }
