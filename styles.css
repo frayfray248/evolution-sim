@@ -1,0 +1,37 @@
+:root {
+    --main-bg-color: #09011D;
+    --sec-bg-color: #43199B;
+    --border-color: #D40454;
+    --text-color: #00F5FF;
+}
+
+html body {
+    height: 100%;
+    background-color: var(--main-bg-color);
+    color: var(--text-color);
+    font-family: Verdana, sans-serif;
+    text-align: center;
+}
+
+canvas {
+    border: 5px solid var(--border-color);
+    border-radius: 5px;
+    padding: 0;
+    margin: auto;
+    display: block;
+    background-color: var(--sec-bg-color);
+}
+
+button {
+    background: none;
+    border: 2px solid var(--text-color);
+    color: var(--text-color);
+    width: 100px;
+    height: 50px;
+    margin: 3vh;
+    font-weight:bolder;
+}
+
+button:hover {
+    background-color: var(--sec-bg-color);
+}
