@@ -1,3 +1,9 @@
+const LIFEFORMS = {
+    PLANT: "Plant",
+    HERBIVORE : "Herbivore",
+    CARNIVORE : "Carnivore"
+}
+
 class LifeForm extends CircleEntity {
 
     simulation
@@ -22,17 +28,6 @@ class LifeForm extends CircleEntity {
 
     render(ctx) {
         super.render(ctx)
-    }
-
-    reproduce() {
-
-        const reproductionCost = this.geneMap.get(GENES.REPRODUCTION_COST)
-        
-        if (this.energy <= reproductionCost) return
-        this.energy -= reproductionCost
-
-        const offSpring = this.clone()
-        this.simulation.entityManager.add(offSpring)
     }
 
     reproduce(offSet) {

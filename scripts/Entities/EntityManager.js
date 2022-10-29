@@ -1,8 +1,12 @@
 class EntityManager {
 
     entities
+    
     maxPlants = SETTINGS.MAX_PLANTS
+    maxHerbivores = SETTINGS.MAX_HERBIVORES
+
     plantCount = 0
+    herbivoreCount = 0
 
     constructor() {
 
@@ -18,6 +22,10 @@ class EntityManager {
             this.entities.push(entity)
             this.plantCount++
         }
+        else if (entityType === "Herbivore" && this.plantCount < this.maxHerbivores) {
+            this.entities.push(entity)
+            this.herbivoreCount++
+        }
     }
 
 
@@ -28,6 +36,9 @@ class EntityManager {
 
         if (entity.constructor.name === "Plant") {
             this.plantCount--
+        }
+        else if (entity.constructor.name === "Herbivore") {
+            this.herbivoreCount--
         }
 
     }

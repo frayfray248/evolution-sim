@@ -18,4 +18,25 @@ class CircleEntity extends Entity {
         ctx.fill()
     }
 
+    getCollidedEntities() {
+
+        const collidedEntities = []
+
+        for (const entity of this.simulation.entityManager.entities) {
+
+            if (entity === this) continue
+
+            const distance = Position.distance(this.position, entity.position)
+
+
+            if (distance < this.radius + entity.radius) {
+                collidedEntities.push(entity)
+            }
+
+        }
+
+        return collidedEntities
+
+    }
+
 }
