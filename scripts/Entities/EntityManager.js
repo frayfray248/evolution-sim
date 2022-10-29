@@ -1,6 +1,8 @@
 class EntityManager {
 
     entities
+    maxPlants = SETTINGS.MAX_PLANTS
+    plantCount = 0
 
     constructor() {
 
@@ -9,7 +11,14 @@ class EntityManager {
     }
 
     add(entity) {     
-        this.entities.push(entity)
+
+        var entityType = entity.constructor.name
+
+        if (entityType === "Plant" && this.plantCount < this.maxPlants) {
+            this.entities.push(entity)
+            this.plantCount++
+            console.log(this.plantCount)
+        }
     }
 
 
@@ -17,6 +26,11 @@ class EntityManager {
         const index = this.entities.indexOf(entity)
 
         if (index != -1) this.entities.splice(index, 1)
+
+        if (entity.constructor.name === "Plant") {
+            this.plantCount--
+            console.log(this.plantCount)
+        }
 
     }
 
@@ -39,6 +53,7 @@ class EntityManager {
 
     purge() {
         this.entities = []
+        this.plantCount = 0
     }
 
 }

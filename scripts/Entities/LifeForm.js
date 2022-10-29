@@ -34,7 +34,7 @@ class LifeForm extends CircleEntity {
 
     grow(delta) {
         this.age += delta * 5
-        if (this.age > 100) {
+        if (this.age > 10) {
             this.die()
         }
     }
