@@ -44,8 +44,8 @@ class LifeForm extends CircleEntity {
     }
 
     grow(delta) {
-        this.age += delta
-        if (this.age > this.lifeSpan) {
+        this.age += delta * this.geneMap.get(GENES.GROWTH_RATE)
+        if (this.age > this.geneMap.get(GENES.LIFESPAN)) {
             this.die()
         }
     }
