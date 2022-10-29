@@ -9,10 +9,6 @@ class Entity {
 
     }
 
-    update(delta) {
-        
-    }
-
     die() {
         this.simulation.entityManager.remove(this)
     }

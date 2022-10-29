@@ -15,7 +15,7 @@ class Simulation {
 
         this.entityManager = new EntityManager()
 
-
+        this.entityManager.add(new Creature(new Position(100, 200), this))
     }
 
     update(delta) {
