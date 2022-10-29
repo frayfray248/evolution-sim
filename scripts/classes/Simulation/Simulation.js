@@ -13,10 +13,13 @@ class Simulation {
         this.frameSkip = 0
         this.pause = false
 
+        this.entityManager = new EntityManager()
+
+
     }
 
     update(delta) {
-
+        this.entityManager.update(delta)
     }
 
     render(fps) {
@@ -25,6 +28,8 @@ class Simulation {
         this.ctx.fillStyle = "#43199B"
         this.ctx.fillRect(0, 0, this.width, this.height)
 
+        // draw
+        this.entityManager.render(this.ctx)
         this.ctx.fillStyle = "cyan"
         this.ctx.font = `${30}px arial`
         this.ctx.fillText(`FPS: ${fps}`, 0, 30)
