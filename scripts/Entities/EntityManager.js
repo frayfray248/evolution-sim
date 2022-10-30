@@ -24,7 +24,7 @@ class EntityManager {
             this.entities.push(entity)
             this.plantCount++
         }
-        else if (entityType === "Herbivore" && this.plantCount < this.maxHerbivores) {
+        else if (entityType === "Herbivore" && this.herbivoreCount < this.maxHerbivores) {
             this.entities.push(entity)
             this.herbivoreCount++
         }
