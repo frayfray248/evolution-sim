@@ -47,7 +47,7 @@ class EntityManager {
             this.herbivoreCount--
         }
         else if (entity.constructor.name === "Carnivore") {
-            this.herbivoreCount--
+            this.carnivoreCount--
         }
 
     }
