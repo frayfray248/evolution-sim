@@ -30,11 +30,21 @@ class Herbivore extends Creature {
     update(delta) {
 
         this.detectEntities()
-        const closestPlant = this.getClosestEntityWithinRange(LIFEFORMS.PLANT)
-        const closestCarnivore = this.getClosestEntityWithinRange(LIFEFORMS.CARNIVORE)
-        this.move(delta, closestPlant, closestCarnivore)
+        this.closestPlant = this.getClosestEntityWithinRange(LIFEFORMS.PLANT)
+        this.closestCarnivore = this.getClosestEntityWithinRange(LIFEFORMS.CARNIVORE)
+        this.move(delta)
         this.eatPlants()
-        this.reproduce(new Position(this.radius, this.radius))
+
+        const range = this.radius
+        
+        const offset = Position.randomPosition(
+                Math.min(this.position.x + range, this.simulation.width - 1),
+                Math.min(this.position.y + range, this.simulation.height - 1),
+                Math.max(this.position.x - range, 1),
+                Math.max(this.position.y - range, 1)
+        )
+
+        this.reproduce(offset)
 
         super.update(delta)
     }

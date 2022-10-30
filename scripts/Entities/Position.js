@@ -40,10 +40,9 @@ class Position {
 
     static randomPosition(maxX, maxY, minX=0, minY=0) {
         const position = new Position(
-            Math.floor((Math.random() * (maxX - minX)) + minX),
-            Math.floor((Math.random() * (maxY - minY)) + minY),
+            Math.floor(Math.random() * (maxX - minX) + minX),
+            Math.floor(Math.random() * (maxY - minY) + minY),
         )
-
         return position
     }
 

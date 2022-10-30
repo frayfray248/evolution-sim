@@ -21,9 +21,14 @@ class Plant extends LifeForm {
 
     reproduce() {
         const seedSpread = this.geneMap.get(GENES.SEED_SPREAD)
-        const offset = new Position(
-            ((Math.random() * seedSpread * 2) - seedSpread) % this.simulation.width,
-            ((Math.random() * seedSpread * 2) - seedSpread) % this.simulation.height)
+        
+        const offset = Position.randomPosition(
+                Math.min(this.position.x + seedSpread, this.simulation.width - 1),
+                Math.min(this.position.y + seedSpread, this.simulation.height - 1),
+                Math.max(this.position.x - seedSpread, 1),
+                Math.max(this.position.y - seedSpread, 1)
+        )
+        
         super.reproduce(offset)
     }
 
