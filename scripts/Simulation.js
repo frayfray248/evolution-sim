@@ -76,6 +76,9 @@ class Simulation {
         if (this.selectedEntity) {
             document.getElementById("entityID").innerHTML = "Some Id"
             document.getElementById("entityType").innerHTML = this.selectedEntity.constructor.name
+            document.getElementById("entityPosition").innerHTML = Math.floor(this.selectedEntity.position.x) + ' , ' + Math.floor(this.selectedEntity.position.y)
+            document.getElementById("entityWanderPosition").innerHTML = this.selectedEntity.wanderPosition ? Math.floor(this.selectedEntity.wanderPosition.x) + ' , ' + Math.floor(this.selectedEntity.wanderPosition.y) : "None"
+            document.getElementById("entityAction").innerHTML = this.selectedEntity.action
             document.getElementById("entityAge").innerHTML = Math.floor(this.selectedEntity.age)
             document.getElementById("entityEnergy").innerHTML = Math.floor(this.selectedEntity.energy)
             document.getElementById("entityReproductionCost").innerHTML = Math.floor(this.selectedEntity.geneMap.get(GENES.REPRODUCTION_COST))

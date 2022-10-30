@@ -14,7 +14,7 @@
     <h1>EVOLUTION SIM</h1>
     <div class="d-flex">
         <div class="col">
-            <table>
+            <table width="200">
                 <tbody>
                     <tr>
                         <th>Plants:</th>
@@ -35,7 +35,43 @@
             <canvas id="canvas" width="600" , height="600"></canvas>
         </div>
         <div class="col">
-            some stats
+            <table width="200" style="text-align:left;">
+                <tbody>
+                    <tr>
+                        <th>Entity ID:</th>
+                        <td id="entityID"></td>
+                    </tr>
+                    <tr>
+                        <th>Type:</th>
+                        <td id="entityType"></td>
+                    </tr>
+                    <tr>
+                        <th>Position:</th>
+                        <td id="entityPosition"></td>
+                    </tr>
+                    <tr>
+                        <th>Wander Pos</th>
+                        <td id="entityWanderPosition"></td>
+                    </tr>
+                    <tr>
+                        <th>Action:</th>
+                        <td id="entityAction"></td>
+                    </tr>
+                    <tr>
+                        <th>Age:</th>
+                        <td id="entityAge"></td>
+                    </tr>
+                    <tr>
+                        <th>Energy:</th>
+                        <td id="entityEnergy"></td>
+                    </tr>
+                    <tr>
+                        <th>Repro. Cost:</th>
+                        <td id="entityReproductionCost"></td>
+                    </tr>
+                    
+                </tbody>
+            </table>
         </div>
     </div>
     
@@ -45,6 +81,7 @@
     <button id="resetButton">Reset</button>
 
     <script src='./scripts/settings/settings.js'></script>
+    <script src='./scripts/handlers/handlers.js'></script>
     <script src='./scripts/Entities/Position.js'></script>
     <script src='./scripts/Entities/GeneMap/GeneMap.js'></script>
     <script src='./scripts/Entities/Entity.js'></script>
