@@ -38,6 +38,7 @@ class Carnivore extends Creature {
 
         if (closestHerbivore) {
             this.chase(delta, closestHerbivore)
+            this.wanderPosition = null
         }
         else {
             this.wander(delta)
