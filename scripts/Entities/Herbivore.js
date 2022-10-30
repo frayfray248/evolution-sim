@@ -26,7 +26,7 @@ class Herbivore extends Creature {
         const closestCarnivore = this.getClosestEntityWithinRange(LIFEFORMS.CARNIVORE)
         this.move(delta, closestPlant, closestCarnivore)
         this.eatPlants()
-        this.reproduce(new Position(0, 0))
+        this.reproduce(new Position(this.radius, this.radius))
 
         super.update(delta)
     }
@@ -42,7 +42,7 @@ class Herbivore extends Creature {
             this.flee(delta, closestCarnivore)
         }
         else if (closestPlant) {
-            this.moveTowards(delta, closestPlant)
+            this.moveTowards(delta, closestPlant.position)
         }
         else {
             this.wander(delta)

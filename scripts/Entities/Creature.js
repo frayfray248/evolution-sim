@@ -100,8 +100,9 @@ class Creature extends LifeForm {
         }
     }
 
-    moveTowards(delta, target) {
-        const targetDirection = Position.direction(this.position, target.position)
+    moveTowards(delta, targetPosition) {
+        
+        const targetDirection = Position.direction(this.position, targetPosition)
 
         this.position.x += targetDirection.x * delta * this.geneMap.get(GENES.SPEED)
         this.position.y += targetDirection.y * delta * this.geneMap.get(GENES.SPEED)
@@ -146,19 +147,20 @@ class Creature extends LifeForm {
     handleBorderCollision() {
 
         if (this.position.x > this.simulation.width) {
-            //this.x = this.simulation.width - this.radias
-            this.position.x -= this.simulation.width - 1
+            this.position.x = this.simulation.width
+            //this.position.x -= this.simulation.width - 1
         }
         else if (this.position.x < 0) {
-            this.position.x += this.simulation.width + 1
+            this.position.x = 0
+            //this.position.x += this.simulation.width + 1
         }
 
         if (this.position.y > this.simulation.height) {
-            this.position.y -= this.simulation.height - 1
+            this.position.y = this.simulation.height
             //this.y = this.simulation.height - this.radias
         }
         else if (this.position.y < 0) {
-            this.position.y += this.simulation.height + 1
+            this.position.y = 0
             //this.y = this.radias
         }
 
