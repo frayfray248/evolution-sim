@@ -62,6 +62,14 @@ class Simulation {
         this.ctx.fillText(`FPS: ${fps}`, 0, 30)
     }
 
+    stats() {
+
+        document.getElementById("plantCount").innerHTML = this.entityManager.plantCount
+        document.getElementById("herbivoreCount").innerHTML = this.entityManager.herbivoreCount
+        document.getElementById("carnivoreCount").innerHTML = this.entityManager.carnivoreCount
+
+    }
+
     loop(time) {
 
 
@@ -77,7 +85,7 @@ class Simulation {
 
             if (this.frameCount >= this.frameSkip) {
                 this.update(delta)
-
+                this.stats()
                 this.frameCount = 0
             }
             else {

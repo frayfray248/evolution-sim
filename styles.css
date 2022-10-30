@@ -35,3 +35,15 @@ button {
 button:hover {
     background-color: var(--sec-bg-color);
 }
+
+.d-flex {
+    display: flex;
+    justify-content: center;
+}
+
+.col {
+    border: 5px solid var(--border-color);
+    border-radius: 5px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
