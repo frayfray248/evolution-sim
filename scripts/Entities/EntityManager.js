@@ -34,6 +34,17 @@ class EntityManager {
         }
     }
 
+    getByPosition(position) {
+
+        for (const entity of this.entities) {
+            if (entity.positionWithinArea(position)) {
+                return entity
+            }
+        }
+
+        return false
+    }
+
 
     remove(entity) {
         const index = this.entities.indexOf(entity)

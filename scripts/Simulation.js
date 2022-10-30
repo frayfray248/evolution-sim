@@ -15,6 +15,7 @@ class Simulation {
 
         this.entityManager = new EntityManager()
         this.spawnStartingEntities()
+        this.stats()
     }
 
     spawnPlant() {
@@ -42,7 +43,7 @@ class Simulation {
             this.spawnCarnivore()
 
         }
-        
+
     }
 
     update(delta) {
@@ -67,7 +68,18 @@ class Simulation {
         document.getElementById("plantCount").innerHTML = this.entityManager.plantCount
         document.getElementById("herbivoreCount").innerHTML = this.entityManager.herbivoreCount
         document.getElementById("carnivoreCount").innerHTML = this.entityManager.carnivoreCount
+        
 
+    }
+
+    selectedEntityStats() {
+        if (this.selectedEntity) {
+            document.getElementById("entityID").innerHTML = "Some Id"
+            document.getElementById("entityType").innerHTML = this.selectedEntity.constructor.name
+            document.getElementById("entityAge").innerHTML = Math.floor(this.selectedEntity.age)
+            document.getElementById("entityEnergy").innerHTML = Math.floor(this.selectedEntity.energy)
+            document.getElementById("entityReproductionCost").innerHTML = Math.floor(this.selectedEntity.geneMap.get(GENES.REPRODUCTION_COST))
+        }
     }
 
     loop(time) {
@@ -86,6 +98,7 @@ class Simulation {
             if (this.frameCount >= this.frameSkip) {
                 this.update(delta)
                 this.stats()
+                this.selectedEntityStats()
                 this.frameCount = 0
             }
             else {
@@ -100,6 +113,19 @@ class Simulation {
         window.requestAnimationFrame((time) => this.loop(time))
     }
 
+    handleClick(x, y) {
+
+        const clickPosition = new Position(x, y)
+
+        const entity = this.entityManager.getByPosition(clickPosition)
+
+        if (entity) {
+            this.selectedEntity = entity
+            this.selectedEntityStats()
+        }
+
+    }
+
     start() {
         window.requestAnimationFrame((time) => { this.loop(time) })
     }
@@ -111,5 +137,8 @@ class Simulation {
     reset() {
         this.entityManager.purge()
         this.spawnStartingEntities()
+        this.selectedEntity = false
+        this.stats()
+        this.selectedEntityStats()
     }
 }

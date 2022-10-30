@@ -1,12 +1,21 @@
-const canvas = document.getElementById("canvas")
-const ctx = canvas.getContext('2d')
+$(function() {
+    
+    // canvas properties
+    const canvas = $('#canvas')[0]
+    const ctx = canvas.getContext('2d')
+    const width = canvas.width
+    const height = canvas.height
 
-const sim = new Simulation(ctx, 600, 600)
+    // create sim
+    const sim = new Simulation(ctx, width, height)
 
-document.getElementById("startButton").onclick = (event) => sim.stop(false)
+    // handlers
+    $('#startButton').on('click', { sim : sim}, HANDLERS.startButtonHandler)
+    $('#stopButton').on('click', { sim : sim}, HANDLERS.pauseButtonHandler)
+    $('#resetButton').on('click', { sim : sim}, HANDLERS.resetButtonHandler)
+    $('#canvas').on('click', { sim : sim, canvas : canvas}, HANDLERS.canvasClickHandler)
 
-document.getElementById("stopButton").onclick = (event) => sim.stop(true)
 
-document.getElementById("resetButton").onclick = (event) => sim.reset()
-
-sim.start()
+    // start
+    sim.start()
+});
