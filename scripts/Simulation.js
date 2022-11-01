@@ -22,46 +22,43 @@ class Simulation {
         this.stats()
     }
 
-    spawnPlant() {
-        this.entityManager.add(new Plant(Position.randomPosition(this.width, this.height), this))
-    }
-
-    spawnHerbivore() {
-        this.entityManager.add(new Herbivore(Position.randomPosition(this.width, this.height), this))
-    }
-
-    spawnCarnivore() {
-        this.entityManager.add(new Carnivore(Position.randomPosition(this.width, this.height), this))
+    spawnLifeForm(type) {
+        switch (type) {
+            case LIFEFORMS.PLANT:
+                this.entityManager.add(new Plant(Position.randomPosition(this.width, this.height), this))
+                break
+            case LIFEFORMS.HERBIVORE:
+                this.entityManager.add(new Herbivore(Position.randomPosition(this.width, this.height), this))
+                break
+            case LIFEFORMS.CARNIVORE:
+                this.entityManager.add(new Carnivore(Position.randomPosition(this.width, this.height), this))
+                break
+        }
     }
 
     spawnStartingEntities() {
         for (let i = 0; i < SETTINGS.STARTING_PLANTS; i++) {
-            this.spawnPlant()
+            this.spawnLifeForm(LIFEFORMS.PLANT)
         }
 
         for (let i = 0; i < SETTINGS.STARTING_HERBIVORES; i++) {
-            this.spawnHerbivore()
+            this.spawnLifeForm(LIFEFORMS.HERBIVORE)
         }
 
         for (let i = 0; i < SETTINGS.STARTING_CARNIVORES; i++) {
-            this.spawnCarnivore()
+            this.spawnLifeForm(LIFEFORMS.CARNIVORE)
 
         }
-
     }
 
     update(delta) {
 
-        if (this.entityManager.plantCount == 0) {
-            this.spawnPlant()
-        }
+        const counts = this.entityManager.counts
 
-        if (this.entityManager.herbivoreCount == 0) {
-            this.spawnHerbivore()
-        }
+        for (const type in counts) {
 
-        if (this.entityManager.carnivoreCount == 0) {
-            this.spawnCarnivore()
+            if (counts[type] <= 0) this.spawnLifeForm(type)
+    
         }
 
         this.entityManager.update(delta)
@@ -83,7 +80,7 @@ class Simulation {
     stats() {
 
         const stats = {}
-        
+
         stats[STATS.PLANTS] = this.entityManager.counts[LIFEFORMS.PLANT]
         stats[STATS.HERBIVORES] = this.entityManager.counts[LIFEFORMS.HERBIVORE]
         stats[STATS.CARNIVORES] = this.entityManager.counts[LIFEFORMS.CARNIVORE]

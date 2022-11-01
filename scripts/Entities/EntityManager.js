@@ -6,6 +6,18 @@ class EntityManager {
     maxHerbivores = SETTINGS.MAX_HERBIVORES
     maxCarnivores = SETTINGS.MAX_CARNIVORES
 
+    maxCreatures = {
+        [LIFEFORMS.PLANT] : SETTINGS.MAX_PLANTS,
+        [LIFEFORMS.HERBIVORE] : SETTINGS.MAX_HERBIVORES,
+        [LIFEFORMS.CARNIVORE]: SETTINGS.MAX_CARNIVORES
+    }
+
+    counts = {
+        [LIFEFORMS.PLANT] : 0,
+        [LIFEFORMS.HERBIVORE] : 0,
+        [LIFEFORMS.CARNIVORE] : 0
+    }
+
     plantCount = 0
     herbivoreCount = 0
     carnivoreCount = 0
@@ -17,20 +29,21 @@ class EntityManager {
     }
 
     add(entity) {     
+        try {
 
-        var entityType = entity.constructor.name
+            const type = entity.constructor.name
 
-        if (entityType === "Plant" && this.plantCount < this.maxPlants) {
-            this.entities.push(entity)
-            this.plantCount++
-        }
-        else if (entityType === "Herbivore" && this.herbivoreCount < this.maxHerbivores) {
-            this.entities.push(entity)
-            this.herbivoreCount++
-        }
-        else if (entityType === "Carnivore" && this.carnivoreCount < this.maxCarnivores) {
-            this.entities.push(entity)
-            this.carnivoreCount++
+            //if (Object.values(LIFEFORMS).indexOf(type) == -1) throw "Invalid entity add to manager"
+
+            if (this.counts[type] < this.maxCreatures[type]) {
+                this.entities.push(entity)
+                this.counts[type]++
+            }
+
+        } catch(e) {
+
+            console.log(e)
+
         }
     }
 
@@ -51,15 +64,9 @@ class EntityManager {
 
         if (index != -1) this.entities.splice(index, 1)
 
-        if (entity.constructor.name === "Plant") {
-            this.plantCount--
-        }
-        else if (entity.constructor.name === "Herbivore") {
-            this.herbivoreCount--
-        }
-        else if (entity.constructor.name === "Carnivore") {
-            this.carnivoreCount--
-        }
+        const type = entity.constructor.name
+
+        this.counts[type]--
 
     }
 
@@ -82,9 +89,12 @@ class EntityManager {
 
     purge() {
         this.entities = []
-        this.plantCount = 0
-        this.herbivoreCount = 0
-        this.carnivoreCount = 0
+        
+        for (const [key, value] of Object.entries(this.counts)) {
+
+            this.counts[key] = 0
+    
+        }
     }
 
 }
