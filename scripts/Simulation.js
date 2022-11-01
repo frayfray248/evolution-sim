@@ -47,6 +47,19 @@ class Simulation {
     }
 
     update(delta) {
+
+        if (this.entityManager.plantCount == 0) {
+            this.spawnPlant()
+        }
+
+        if (this.entityManager.herbivoreCount == 0) {
+            this.spawnHerbivore()
+        }
+
+        if (this.entityManager.carnivoreCount == 0) {
+            this.spawnCarnivore()
+        }
+
         this.entityManager.update(delta)
     }
 
