@@ -1,6 +1,6 @@
 class Simulation {
 
-    constructor(ctx, width, height) {
+    constructor(ctx, width, height, statsHandler) {
 
         // dimensions and context
         this.ctx = ctx
@@ -13,6 +13,10 @@ class Simulation {
         this.frameSkip = 0
         this.pause = true
 
+        // stats handler
+        this.statsHandler = statsHandler
+
+        // init
         this.entityManager = new EntityManager()
         this.spawnStartingEntities()
         this.stats()
@@ -78,11 +82,13 @@ class Simulation {
 
     stats() {
 
-        document.getElementById("plantCount").innerHTML = this.entityManager.plantCount
-        document.getElementById("herbivoreCount").innerHTML = this.entityManager.herbivoreCount
-        document.getElementById("carnivoreCount").innerHTML = this.entityManager.carnivoreCount
+        const stats = {}
         
+        stats[STATS.PLANTS] = this.entityManager.counts[LIFEFORMS.PLANT]
+        stats[STATS.HERBIVORES] = this.entityManager.counts[LIFEFORMS.HERBIVORE]
+        stats[STATS.CARNIVORES] = this.entityManager.counts[LIFEFORMS.CARNIVORE]
 
+        this.statsHandler(stats)
     }
 
     selectedEntityStats() {
