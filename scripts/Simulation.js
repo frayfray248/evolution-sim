@@ -85,6 +85,7 @@ class Simulation {
         stats[STATS.PLANTS] = this.entityManager.counts[LIFEFORMS.PLANT]
         stats[STATS.HERBIVORES] = this.entityManager.counts[LIFEFORMS.HERBIVORE]
         stats[STATS.CARNIVORES] = this.entityManager.counts[LIFEFORMS.CARNIVORE]
+        stats[STATS.MUTATIONS] = GeneMap.mutationCount
 
         this.statsHandler(stats)
     }

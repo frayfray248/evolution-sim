@@ -1,7 +1,8 @@
 const STATS = {
     PLANTS : "Plants",
     HERBIVORES : "Herbivores",
-    CARNIVORES : "Carnivores"
+    CARNIVORES : "Carnivores",
+    MUTATIONS : "Mutations"
 }
 
 const ENTITY_STATS = {

@@ -40,6 +40,7 @@ class LifeForm extends CircleEntity {
         const offSpring = this.clone()
         offSpring.position.x = offSet.x
         offSpring.position.y = offSet.y
+        offSpring.geneMap.mutate()
         this.simulation.entityManager.add(offSpring)
     }
 

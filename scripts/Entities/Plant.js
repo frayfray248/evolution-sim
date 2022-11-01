@@ -37,6 +37,6 @@ class Plant extends LifeForm {
     }
 
     clone() {
-        return new Plant(this.position.clone(), this.simulation)
+        return new Plant(this.position.clone(), this.simulation, this.geneMap.clone())
     }
 }
