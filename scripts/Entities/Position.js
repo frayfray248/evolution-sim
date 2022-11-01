@@ -50,4 +50,8 @@ class Position {
         return new Position(this.x, this.y)
     }
 
+    toString() {
+        return `${Math.round(this.x)},${Math.round(this.y)}`
+    }
+
 }
