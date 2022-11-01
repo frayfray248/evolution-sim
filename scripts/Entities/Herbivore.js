@@ -25,6 +25,7 @@ class Herbivore extends Creature {
 
     constructor(position, simulation, genes = createDefaultHerbivoreGenes()) {
         super(position, simulation, '#0066ff', genes)
+        this.action = HERBIVORE_ACTIONS.WANDERING
     }
 
     update(delta) {

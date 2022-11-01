@@ -7,7 +7,7 @@ $(function() {
     const height = canvas.height
 
     // create sim
-    const sim = new Simulation(ctx, width, height, updateStats)
+    const sim = new Simulation(ctx, width, height, updateStats, updateEntityStats)
 
     // handlers
     $('#startButton').on('click', { sim : sim}, HANDLERS.startButtonHandler)

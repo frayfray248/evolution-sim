@@ -22,8 +22,9 @@ class EntityManager {
     herbivoreCount = 0
     carnivoreCount = 0
 
-    constructor() {
+    constructor(simulation) {
 
+        this.simulation = simulation
         this.entities = []
 
     }
@@ -33,11 +34,12 @@ class EntityManager {
 
             const type = entity.constructor.name
 
-            //if (Object.values(LIFEFORMS).indexOf(type) == -1) throw "Invalid entity add to manager"
+            if (Object.values(LIFEFORMS).indexOf(type) == -1) throw "Invalid entity add to manager"
 
             if (this.counts[type] < this.maxCreatures[type]) {
                 this.entities.push(entity)
                 this.counts[type]++
+                entity.id = this.entities.indexOf(entity)
             }
 
         } catch(e) {
@@ -46,6 +48,7 @@ class EntityManager {
 
         }
     }
+
 
     getByPosition(position) {
 
@@ -67,6 +70,10 @@ class EntityManager {
         const type = entity.constructor.name
 
         this.counts[type]--
+
+        if (this.simulation.selectedEntity === entity) {
+            this.simulation.selectedEntity = null
+        }
 
     }
 

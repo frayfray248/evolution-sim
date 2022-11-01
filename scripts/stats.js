@@ -4,6 +4,16 @@ const STATS = {
     CARNIVORES : "Carnivores"
 }
 
+const ENTITY_STATS = {
+    ID : "ID",
+    TYPE : "Type",
+    POSITION : "Position",
+    ACTION : "Action",
+    AGE : "Age",
+    ENERGY : "Energy",
+    REPRODUCTION_COST : "Reproduction Cost"
+}
+
 const updateStats = (stats) => {
 
     for (const [key, value] of Object.entries(stats)) {
@@ -12,4 +22,24 @@ const updateStats = (stats) => {
 
     }
 
+}
+
+const updateEntityStats = (stats) => {
+
+    
+
+    if (stats) {
+        $('.entity').empty()
+        for (const [key, value] of Object.entries(stats)) {
+            console.log(`#entity${key.replace(/ /g,'')}`)
+            $(`#entity${key.replace(/ /g,'')}`).html(value)
+    
+        }
+    
+    }
+    else {
+        $('.entity').empty()
+    }
+
+    
 }

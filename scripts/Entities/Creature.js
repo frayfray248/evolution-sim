@@ -16,6 +16,7 @@ class Creature extends LifeForm {
         this.entitiesWithinRange = []
         this.travelTimeLeft = 0
         this.travelTimeRange = 5
+        this.action = "wandering"
     }
 
     update(delta) {
@@ -68,7 +69,8 @@ class Creature extends LifeForm {
         // generate a random wander position if one doesn't exist
         if (!this.wanderPosition || this.positionWithinArea(this.wanderPosition)) {
 
-            const range = Math.floor(Math.random() * this.geneMap.get(GENES.SIGHT_RANGE))
+            //const range = Math.floor(Math.random() * this.geneMap.get(GENES.SIGHT_RANGE))
+            const range = 100
 
             const position = Position.randomPosition(
                 Math.min(this.position.x + range, this.simulation.width - 1),

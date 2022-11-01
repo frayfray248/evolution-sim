@@ -1,6 +1,6 @@
 class Simulation {
 
-    constructor(ctx, width, height, statsHandler) {
+    constructor(ctx, width, height, statsHandler, entityStatsHandler) {
 
         // dimensions and context
         this.ctx = ctx
@@ -15,9 +15,10 @@ class Simulation {
 
         // stats handler
         this.statsHandler = statsHandler
+        this.entityStatsHandler = entityStatsHandler
 
         // init
-        this.entityManager = new EntityManager()
+        this.entityManager = new EntityManager(this)
         this.spawnStartingEntities()
         this.stats()
     }
@@ -89,16 +90,26 @@ class Simulation {
     }
 
     selectedEntityStats() {
-        if (this.selectedEntity) {
-            document.getElementById("entityID").innerHTML = "Some Id"
-            document.getElementById("entityType").innerHTML = this.selectedEntity.constructor.name
-            document.getElementById("entityPosition").innerHTML = Math.floor(this.selectedEntity.position.x) + ' , ' + Math.floor(this.selectedEntity.position.y)
-            document.getElementById("entityWanderPosition").innerHTML = this.selectedEntity.wanderPosition ? Math.floor(this.selectedEntity.wanderPosition.x) + ' , ' + Math.floor(this.selectedEntity.wanderPosition.y) : "None"
-            document.getElementById("entityAction").innerHTML = this.selectedEntity.action
-            document.getElementById("entityAge").innerHTML = Math.floor(this.selectedEntity.age)
-            document.getElementById("entityEnergy").innerHTML = Math.floor(this.selectedEntity.energy)
-            document.getElementById("entityReproductionCost").innerHTML = Math.floor(this.selectedEntity.geneMap.get(GENES.REPRODUCTION_COST))
+        if (this.selectedEntity ) {
+
+            const entityStats = {}
+
+            entityStats[ENTITY_STATS.ID] = this.selectedEntity.id
+            entityStats[ENTITY_STATS.TYPE] = this.selectedEntity.constructor.name
+            entityStats[ENTITY_STATS.POSITION] = this.selectedEntity.position.toString()
+            entityStats[ENTITY_STATS.ACTION] = this.selectedEntity.action
+            entityStats[ENTITY_STATS.AGE] = Math.round(this.selectedEntity.age)
+            entityStats[ENTITY_STATS.ENERGY] = Math.round(this.selectedEntity.energy)
+            entityStats[ENTITY_STATS.REPRODUCTION_COST] = this.selectedEntity.geneMap.get(GENES.REPRODUCTION_COST)
+
+            this.entityStatsHandler(entityStats)
+
         }
+        else {
+            this.entityStatsHandler(null)
+        }
+
+        
     }
 
     loop(time) {

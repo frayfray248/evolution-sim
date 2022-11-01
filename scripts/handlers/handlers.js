@@ -19,6 +19,6 @@ const HANDLERS = {
         const offSetX = canvas.getBoundingClientRect().left
         const offSetY = canvas.getBoundingClientRect().top
 
-        sim.handleClick(event.clientX - offSetX, event.clientY - offSetY)
+        sim.handleClick((e.clientX - 5) - offSetX, (e.clientY - 5) - offSetY)
     }
 }
