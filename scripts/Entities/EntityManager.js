@@ -80,6 +80,7 @@ class EntityManager {
     update(delta) {
 
         for (const entity of this.entities) {
+
             entity.update(delta)
         }
 
@@ -88,7 +89,21 @@ class EntityManager {
 
     render(ctx) {
 
+        const nonePlants = []
+
+        // render plants first
         for (const entity of this.entities) {
+
+            if (entity.constructor.name === LIFEFORMS.PLANT) {
+                entity.render(ctx)
+            }
+            else {
+                nonePlants.push(entity)
+            }
+        }
+
+        // render all other entities
+        for (const entity of nonePlants) {
             entity.render(ctx)
         }
 
