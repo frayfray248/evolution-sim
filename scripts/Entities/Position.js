@@ -39,14 +39,19 @@ class Position {
     }
 
     static randomPosition(maxX, maxY, minX=0, minY=0) {
-        return new Position(
-            Math.floor(Math.random() * maxX) + minX,
-            Math.floor(Math.random() * maxY) + minY,
+        const position = new Position(
+            Math.floor(Math.random() * (maxX - minX) + minX),
+            Math.floor(Math.random() * (maxY - minY) + minY),
         )
+        return position
     }
 
     clone() {
         return new Position(this.x, this.y)
+    }
+
+    toString() {
+        return `${Math.round(this.x)},${Math.round(this.y)}`
     }
 
 }

@@ -16,6 +16,8 @@ class GeneMap {
 
     genes
 
+    static mutationCount = 0
+
     constructor(genes) {
 
         this.genes = genes
@@ -28,6 +30,35 @@ class GeneMap {
 
     set(name, value) {
         this.genes.set(name, value)
+    }
+
+    mutate() {
+
+        const mutationCheck = Math.floor(Math.random() * 100) + 1
+
+        if (mutationCheck < SETTINGS.MUTATION_CHANCE) {
+
+            const index = Math.floor(Math.random() * this.genes.size)
+            const gene = [...this.genes][0][0]
+            this.mutateGene(gene)
+        }
+
+    }
+
+    mutateGene(name) {
+
+        // const mutationCheck = Math.floor(Math.random() * 100) + 1
+        
+
+        // if (mutationCheck < SETTINGS.MUTATION_CHANCE) {
+            const oldVal = this.genes.get(name)
+            const mutationMultiplyer = (((Math.floor(Math.random() * SETTINGS.MUTATION_MULTIPLYER_RANGE * 2) + 1) - SETTINGS.MUTATION_MULTIPLYER_RANGE) / 100) + 1
+            const newVal = oldVal * mutationMultiplyer
+            this.genes.set(name, newVal)
+            console.log(`Gene ${name} mutated from ${oldVal} to ${newVal}`)
+            GeneMap.mutationCount++
+        //}
+
     }
 
     clone() {

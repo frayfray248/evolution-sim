@@ -3,6 +3,8 @@ class Creature extends LifeForm {
 
     entitiesWithinRange
 
+    wanderPosition
+
     travelTimeLeft
     travelTimeRange
     dirX
@@ -14,6 +16,7 @@ class Creature extends LifeForm {
         this.entitiesWithinRange = []
         this.travelTimeLeft = 0
         this.travelTimeRange = 5
+        this.action = "wandering"
     }
 
     update(delta) {
@@ -63,45 +66,64 @@ class Creature extends LifeForm {
 
     wander(delta) {
 
-        if (this.travelTimeLeft > 0) {
+        // generate a random wander position if one doesn't exist
+        if (!this.wanderPosition || this.positionWithinArea(this.wanderPosition)) {
 
+            //const range = Math.floor(Math.random() * this.geneMap.get(GENES.SIGHT_RANGE))
+            const range = 100
 
-            const moveX = delta * this.dirX * this.geneMap.get(GENES.SPEED)
-            const moveY = delta * this.dirY * this.geneMap.get(GENES.SPEED)
+            const position = Position.randomPosition(
+                Math.min(this.position.x + range, this.simulation.width - 1),
+                Math.min(this.position.y + range, this.simulation.height - 1),
+                Math.max(this.position.x - range, 1),
+                Math.max(this.position.y - range, 1)
+            )
 
-            this.position.x += moveX
-            this.position.y += moveY
-
-            this.travelTimeLeft -= delta
-
+            this.wanderPosition = position
         }
-        else {
 
-            const num = (Math.floor(Math.random() * 2))
+        this.moveTowards(delta, this.wanderPosition)
+        
+        // if (this.travelTimeLeft > 0) {
 
-            switch (num) {
-                case 0:
-                    this.dirX = (Math.floor(Math.random() * 2)) === 0 ? 1 : -1
-                    this.dirY = (Math.floor(Math.random() * 2)) === 0 ? 1 : -1
-                break
-                case 1:
-                    this.dirX = (Math.floor(Math.random() * 2)) === 0 ? 1 : -1
-                    this.dirY = 0
-                break
-                case 2:
-                    this.dirX = 0
-                    this.dirY = (Math.floor(Math.random() * 2)) === 0 ? 1 : -1
-                break
-            }
+
+        //     const moveX = delta * this.dirX * this.geneMap.get(GENES.SPEED)
+        //     const moveY = delta * this.dirY * this.geneMap.get(GENES.SPEED)
+
+        //     this.position.x += moveX
+        //     this.position.y += moveY
+
+        //     this.travelTimeLeft -= delta
+
+        // }
+        // else {
+
+        //     const num = (Math.floor(Math.random() * 2))
+
+        //     switch (num) {
+        //         case 0:
+        //             this.dirX = (Math.floor(Math.random() * 2)) === 0 ? 1 : -1
+        //             this.dirY = (Math.floor(Math.random() * 2)) === 0 ? 1 : -1
+        //         break
+        //         case 1:
+        //             this.dirX = (Math.floor(Math.random() * 2)) === 0 ? 1 : -1
+        //             this.dirY = 0
+        //         break
+        //         case 2:
+        //             this.dirX = 0
+        //             this.dirY = (Math.floor(Math.random() * 2)) === 0 ? 1 : -1
+        //         break
+        //     }
 
             
 
-            this.travelTimeLeft = Math.random() * this.travelTimeRange + 1
-        }
+        //     this.travelTimeLeft = Math.random() * this.travelTimeRange + 1
+        // }
     }
 
-    moveTowards(delta, target) {
-        const targetDirection = Position.direction(this.position, target.position)
+    moveTowards(delta, targetPosition) {
+        
+        const targetDirection = Position.direction(this.position, targetPosition)
 
         this.position.x += targetDirection.x * delta * this.geneMap.get(GENES.SPEED)
         this.position.y += targetDirection.y * delta * this.geneMap.get(GENES.SPEED)
@@ -146,19 +168,20 @@ class Creature extends LifeForm {
     handleBorderCollision() {
 
         if (this.position.x > this.simulation.width) {
-            //this.x = this.simulation.width - this.radias
-            this.position.x -= this.simulation.width - 1
+            this.position.x = this.simulation.width - 1
+            //this.position.x -= this.simulation.width - 1
         }
         else if (this.position.x < 0) {
-            this.position.x += this.simulation.width + 1
+            this.position.x = 1
+            //this.position.x += this.simulation.width + 1
         }
 
         if (this.position.y > this.simulation.height) {
-            this.position.y -= this.simulation.height - 1
+            this.position.y = this.simulation.height - 1
             //this.y = this.simulation.height - this.radias
         }
         else if (this.position.y < 0) {
-            this.position.y += this.simulation.height + 1
+            this.position.y = 1
             //this.y = this.radias
         }
 

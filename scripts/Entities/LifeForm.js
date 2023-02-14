@@ -34,12 +34,13 @@ class LifeForm extends CircleEntity {
 
         const reproductionCost = this.geneMap.get(GENES.REPRODUCTION_COST)
         
-        if (this.energy <= reproductionCost) return
+        if (this.energy < reproductionCost) return
         this.energy -= reproductionCost
 
         const offSpring = this.clone()
-        offSpring.position.x += offSet.x
-        offSpring.position.y += offSet.y
+        offSpring.position.x = offSet.x
+        offSpring.position.y = offSet.y
+        offSpring.geneMap.mutate()
         this.simulation.entityManager.add(offSpring)
     }
 

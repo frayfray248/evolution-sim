@@ -18,6 +18,13 @@ class CircleEntity extends Entity {
         ctx.fill()
     }
 
+    positionWithinArea(position) {
+        return (position.x > this.position.x - this.radius &&
+            position.x < this.position.x + this.radius &&
+            position.y > this.position.y - this.radius &&
+            position.y < this.position.y + this.radius)
+    }
+
     getCollidedEntities() {
 
         const collidedEntities = []

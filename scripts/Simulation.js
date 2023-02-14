@@ -1,6 +1,6 @@
 class Simulation {
 
-    constructor(ctx, width, height) {
+    constructor(ctx, width, height, statsHandler, entityStatsHandler) {
 
         // dimensions and context
         this.ctx = ctx
@@ -13,39 +13,55 @@ class Simulation {
         this.frameSkip = 0
         this.pause = true
 
-        this.entityManager = new EntityManager()
+        // stats handler
+        this.statsHandler = statsHandler
+        this.entityStatsHandler = entityStatsHandler
+
+        // init
+        this.entityManager = new EntityManager(this)
         this.spawnStartingEntities()
+        this.stats()
     }
 
-    spawnPlant() {
-        this.entityManager.add(new Plant(Position.randomPosition(this.width, this.height), this))
-    }
-
-    spawnHerbivore() {
-        this.entityManager.add(new Herbivore(Position.randomPosition(this.width, this.height), this))
-    }
-
-    spawnCarnivore() {
-        this.entityManager.add(new Carnivore(Position.randomPosition(this.width, this.height), this))
+    spawnLifeForm(type) {
+        switch (type) {
+            case LIFEFORMS.PLANT:
+                this.entityManager.add(new Plant(Position.randomPosition(this.width, this.height), this))
+                break
+            case LIFEFORMS.HERBIVORE:
+                this.entityManager.add(new Herbivore(Position.randomPosition(this.width, this.height), this))
+                break
+            case LIFEFORMS.CARNIVORE:
+                this.entityManager.add(new Carnivore(Position.randomPosition(this.width, this.height), this))
+                break
+        }
     }
 
     spawnStartingEntities() {
         for (let i = 0; i < SETTINGS.STARTING_PLANTS; i++) {
-            this.spawnPlant()
+            this.spawnLifeForm(LIFEFORMS.PLANT)
         }
 
         for (let i = 0; i < SETTINGS.STARTING_HERBIVORES; i++) {
-            this.spawnHerbivore()
+            this.spawnLifeForm(LIFEFORMS.HERBIVORE)
         }
 
         for (let i = 0; i < SETTINGS.STARTING_CARNIVORES; i++) {
-            this.spawnCarnivore()
+            this.spawnLifeForm(LIFEFORMS.CARNIVORE)
 
         }
-        
     }
 
     update(delta) {
+
+        const counts = this.entityManager.counts
+
+        for (const type in counts) {
+
+            if (counts[type] <= 0) this.spawnLifeForm(type)
+    
+        }
+
         this.entityManager.update(delta)
     }
 
@@ -64,10 +80,37 @@ class Simulation {
 
     stats() {
 
-        document.getElementById("plantCount").innerHTML = this.entityManager.plantCount
-        document.getElementById("herbivoreCount").innerHTML = this.entityManager.herbivoreCount
-        document.getElementById("carnivoreCount").innerHTML = this.entityManager.carnivoreCount
+        const stats = {}
 
+        stats[STATS.PLANTS] = this.entityManager.counts[LIFEFORMS.PLANT]
+        stats[STATS.HERBIVORES] = this.entityManager.counts[LIFEFORMS.HERBIVORE]
+        stats[STATS.CARNIVORES] = this.entityManager.counts[LIFEFORMS.CARNIVORE]
+        stats[STATS.MUTATIONS] = GeneMap.mutationCount
+
+        this.statsHandler(stats)
+    }
+
+    selectedEntityStats() {
+        if (this.selectedEntity ) {
+
+            const entityStats = {}
+
+            entityStats[ENTITY_STATS.ID] = this.selectedEntity.id
+            entityStats[ENTITY_STATS.TYPE] = this.selectedEntity.constructor.name
+            entityStats[ENTITY_STATS.POSITION] = this.selectedEntity.position.toString()
+            entityStats[ENTITY_STATS.ACTION] = this.selectedEntity.action
+            entityStats[ENTITY_STATS.AGE] = Math.round(this.selectedEntity.age)
+            entityStats[ENTITY_STATS.ENERGY] = Math.round(this.selectedEntity.energy)
+            entityStats[ENTITY_STATS.REPRODUCTION_COST] = this.selectedEntity.geneMap.get(GENES.REPRODUCTION_COST)
+
+            this.entityStatsHandler(entityStats)
+
+        }
+        else {
+            this.entityStatsHandler(null)
+        }
+
+        
     }
 
     loop(time) {
@@ -86,6 +129,7 @@ class Simulation {
             if (this.frameCount >= this.frameSkip) {
                 this.update(delta)
                 this.stats()
+                this.selectedEntityStats()
                 this.frameCount = 0
             }
             else {
@@ -100,6 +144,19 @@ class Simulation {
         window.requestAnimationFrame((time) => this.loop(time))
     }
 
+    handleClick(x, y) {
+
+        const clickPosition = new Position(x, y)
+
+        const entity = this.entityManager.getByPosition(clickPosition)
+
+        if (entity) {
+            this.selectedEntity = entity
+            this.selectedEntityStats()
+        }
+
+    }
+
     start() {
         window.requestAnimationFrame((time) => { this.loop(time) })
     }
@@ -111,5 +168,8 @@ class Simulation {
     reset() {
         this.entityManager.purge()
         this.spawnStartingEntities()
+        this.selectedEntity = false
+        this.stats()
+        this.selectedEntityStats()
     }
 }

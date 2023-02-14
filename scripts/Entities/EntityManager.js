@@ -6,32 +6,59 @@ class EntityManager {
     maxHerbivores = SETTINGS.MAX_HERBIVORES
     maxCarnivores = SETTINGS.MAX_CARNIVORES
 
+    maxCreatures = {
+        [LIFEFORMS.PLANT] : SETTINGS.MAX_PLANTS,
+        [LIFEFORMS.HERBIVORE] : SETTINGS.MAX_HERBIVORES,
+        [LIFEFORMS.CARNIVORE]: SETTINGS.MAX_CARNIVORES
+    }
+
+    counts = {
+        [LIFEFORMS.PLANT] : 0,
+        [LIFEFORMS.HERBIVORE] : 0,
+        [LIFEFORMS.CARNIVORE] : 0
+    }
+
     plantCount = 0
     herbivoreCount = 0
     carnivoreCount = 0
 
-    constructor() {
+    constructor(simulation) {
 
+        this.simulation = simulation
         this.entities = []
 
     }
 
     add(entity) {     
+        try {
 
-        var entityType = entity.constructor.name
+            const type = entity.constructor.name
 
-        if (entityType === "Plant" && this.plantCount < this.maxPlants) {
-            this.entities.push(entity)
-            this.plantCount++
+            if (Object.values(LIFEFORMS).indexOf(type) == -1) throw "Invalid entity add to manager"
+
+            if (this.counts[type] < this.maxCreatures[type]) {
+                this.entities.push(entity)
+                this.counts[type]++
+                entity.id = this.entities.indexOf(entity)
+            }
+
+        } catch(e) {
+
+            console.log(e)
+
         }
-        else if (entityType === "Herbivore" && this.plantCount < this.maxHerbivores) {
-            this.entities.push(entity)
-            this.herbivoreCount++
+    }
+
+
+    getByPosition(position) {
+
+        for (const entity of this.entities) {
+            if (entity.positionWithinArea(position)) {
+                return entity
+            }
         }
-        else if (entityType === "Carnivore" && this.carnivoreCount < this.maxCarnivores) {
-            this.entities.push(entity)
-            this.carnivoreCount++
-        }
+
+        return false
     }
 
 
@@ -40,14 +67,12 @@ class EntityManager {
 
         if (index != -1) this.entities.splice(index, 1)
 
-        if (entity.constructor.name === "Plant") {
-            this.plantCount--
-        }
-        else if (entity.constructor.name === "Herbivore") {
-            this.herbivoreCount--
-        }
-        else if (entity.constructor.name === "Carnivore") {
-            this.carnivoreCount--
+        const type = entity.constructor.name
+
+        this.counts[type]--
+
+        if (this.simulation.selectedEntity === entity) {
+            this.simulation.selectedEntity = null
         }
 
     }
@@ -55,6 +80,7 @@ class EntityManager {
     update(delta) {
 
         for (const entity of this.entities) {
+
             entity.update(delta)
         }
 
@@ -63,7 +89,21 @@ class EntityManager {
 
     render(ctx) {
 
+        const nonePlants = []
+
+        // render plants first
         for (const entity of this.entities) {
+
+            if (entity.constructor.name === LIFEFORMS.PLANT) {
+                entity.render(ctx)
+            }
+            else {
+                nonePlants.push(entity)
+            }
+        }
+
+        // render all other entities
+        for (const entity of nonePlants) {
             entity.render(ctx)
         }
 
@@ -71,9 +111,12 @@ class EntityManager {
 
     purge() {
         this.entities = []
-        this.plantCount = 0
-        this.herbivoreCount = 0
-        this.carnivoreCount = 0
+        
+        for (const [key, value] of Object.entries(this.counts)) {
+
+            this.counts[key] = 0
+    
+        }
     }
 
 }
