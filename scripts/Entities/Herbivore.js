@@ -33,8 +33,15 @@ class Herbivore extends Creature {
         this.detectEntities()
         this.closestPlant = this.getClosestEntityWithinRange(LIFEFORMS.PLANT)
         this.closestCarnivore = this.getClosestEntityWithinRange(LIFEFORMS.CARNIVORE)
-        this.move(delta)
-        this.eatPlants()
+
+        if (this.getCollidedEntities().find(entity => entity.constructor.name === LIFEFORMS.PLANT)) {
+            this.eatPlants()
+        }
+        else {
+            this.move(delta)
+        }
+        
+        
 
         const range = this.radius
         
