@@ -23,30 +23,27 @@ const SETTINGS = {
             COLOR: 'lime'
         },
         HERBIVORE: {
-            LIFESPAN: 1500,
+            LIFESPAN: 3000,
             GROWTH_RATE: 100,
             ENERGY_GAIN_RATE: 50,
             REPRODUCTION_COST: 400,
             RADIUS: 5,
             SIGHT_RANGE: 60,
-            SPEED: 80,
+            SPEED: 40,
             SPRINT_MULTIPLYER: 1.2,
-            SPRINT_ENERGY_COST: 2,
+            SPRINT_ENERGY_COST: 3,
             BOLDNESS: 1.0
         },
         CARNIVORE: {
-            LIFESPAN: 3000,
+            LIFESPAN: 4500,
             GROWTH_RATE: 100,
             ENERGY_GAIN_RATE: 50,
-            REPRODUCTION_COST: 400,
+            REPRODUCTION_COST: 500,
             RADIUS: 7,
-            RED_COLOR: 204,
-            GREEN_COLOR: 0,
-            BLUE_COLOR: 0,
             SIGHT_RANGE: 90,
-            SPEED: 100,
+            SPEED: 50,
             SPRINT_MULTIPLYER: 1.2,
-            SPRINT_ENERGY_COST: 2
+            SPRINT_ENERGY_COST: 3
         }
     }
 }
