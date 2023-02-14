@@ -10,8 +10,7 @@ $(function() {
     const sim = new Simulation(ctx, width, height, updateStats, updateEntityStats)
 
     // handlers
-    $('#startButton').on('click', { sim : sim}, HANDLERS.startButtonHandler)
-    $('#stopButton').on('click', { sim : sim}, HANDLERS.pauseButtonHandler)
+    $('#pauseButton').on('click', { sim : sim }, HANDLERS.pauseButtonHandler)
     $('#resetButton').on('click', { sim : sim}, HANDLERS.resetButtonHandler)
     $('#canvas').on('click', { sim : sim, canvas : canvas}, HANDLERS.canvasClickHandler)
 

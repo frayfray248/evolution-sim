@@ -1,10 +1,18 @@
 const HANDLERS = {
-    startButtonHandler: (e) => {
-        e.data.sim.stop(false)
-    },
 
     pauseButtonHandler: (e) => {
-        e.data.sim.stop(true)
+
+        const sim = e.data.sim
+        const $button = $(e.target)
+
+        if (sim.pause) {
+            sim.stop(false)
+            $button.html("Pause")
+        }
+        else {
+            sim.stop(true)
+            $button.html("Start")
+        }
     },
 
     resetButtonHandler: (e) => {
