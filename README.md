@@ -8,4 +8,4 @@ lifeform gains enough energy, they will reproduce and spawn offspring. An offspr
 Overtime, the lifeforms will evolve and adapt to their environment.
 
 ## Live Demo
-[https://evolution-sim.fly.dev/](https://evolution-sim.fmacal.com/)
+https://evolution-sim.fmacal.com/(https://evolution-sim.fmacal.com/)
